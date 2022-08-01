@@ -109,29 +109,9 @@ id NUMBER,
 health_record_id NUMBER,
 CONSTRAINTS prescription_id_pk PRIMARY KEY (id),
 CONSTRAINTS prescription_health_r_id_fk FOREIGN KEY (health_record_id)
-REFERENCES health_record (id)
+REFERENCES health_record (id),
 );
 
-CREATE TABLE medicine
-(
-id NUMBER(9),
-name VARCHAR2(150),
-unit VARCHAR2(30),
-instruction VARCHAR(255),
-CONSTRAINTS medicine_id_pk PRIMARY KEY (id)
-);
-
-CREATE TABLE prescription_deatail
-(
-prescription_id NUMBER,
-medicine_id NUMBER(9),
-amount NUMBER(3),
-CONSTRAINTS presc_deatail_pk PRIMARY KEY (prescription_id, medicine_id),
-CONSTRAINTS presc_deatail_presc_id_fk FOREIGN KEY (prescription_id)
-REFERENCES prescription (id),
-CONSTRAINTS presc_deatail_medicine_id_fk FOREIGN KEY (medicine_id)
-REFERENCES medicine (id)
-);
 
 
 
