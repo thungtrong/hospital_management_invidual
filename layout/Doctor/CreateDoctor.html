@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Doctor</title>
+</head>
+
+<style>
+    @import url('../css/shared.css');
+
+    .table-information tr td:first-child {
+        text-align: right;
+    }
+</style>
+
+<body>
+    <div id="wapper">
+        <h1>Insert Doctor</h1>
+        <hr>
+        <div id="form-container" align="center">
+            <form action="">
+                <table class="table-information" cellpadding="10">
+                    <caption>
+                        <h2>Add Doctor</h2>
+                    </caption>
+                    <tr>
+                        <td>Name: </td>
+                        <td><input type="text" name="doctor_name" placeholder="Enter doctor's name"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Department: </td>
+                        <td>
+                            <select name="department" id="department_selector">
+                                <option value="select">Select Department</option>
+                                <option value="outpatient">Outpatient department</option>
+                                <option value="inpatient">Inpatient Service</option>
+                                <option value="emergency_room">Emergency Room</option>
+                                <option value="intensive_care_unit">Intensive Care Unit</option>
+                                <option value="neonatal_intensive_care_unit">Neonatal Intensive Care Unit</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Gender: </td>
+                        <td>
+                            <select name="gender" id="select_gender">
+                                <option value="_" selected>Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Address: </td>
+                        <td>
+                            <textarea cols="35" rows="4" name="address"
+                                placeholder="Enter patient's address"></textarea>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Phone Number: </td>
+                        <td>
+                            <input type="text" name="phone_number" placeholder="Enter phone number">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date of Birth: </td>
+                        <td>
+                            <input type="date" name="dob">
+                        </td>
+                    </tr>
+
+                </table>
+            </form>
+            <div class="button-group">
+                <input type="submit" value="Create">
+                <input type="Reset" value="Reset">
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

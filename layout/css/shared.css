@@ -1,0 +1,188 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    /* font-size: 62.5%; */
+    font-family: 'Poppins', sans-serif;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+body{
+    width:100%;
+    height: 100vh;
+    background-image: linear-gradient(to right top,#ffff,#607EAA);  
+}
+
+h1
+{
+    padding: 0.2em;
+}
+
+hr
+{
+    background-color: gray;
+    margin: 10px;
+}
+#form-container
+{
+    margin-left: 20%;
+    background-color: white;
+    width: max-content;
+    padding: 1em;
+    border-radius: 10px;
+}
+
+.header-type-table
+{
+    width: 100%;
+    margin-top: 2vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.h2
+{
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.table-information input[type="text"], .table-information textarea {
+    min-width: 25vw;
+    padding: 5px;
+    font-size: 1em;
+}
+.table-information input[type="date"]
+{
+    font-size: 1.5em;
+}
+.table-header-group
+{
+    background-color: #607EAA;
+}
+
+
+
+.table
+{
+    margin-top: 1em;
+    width: 100%;
+    border-collapse: collapse;
+    border-color: #1c427b;
+    border-style: solid;
+    border-radius: 1em;
+    border: 0;
+    overflow: hidden;
+    box-shadow: 0px 1px 5px 0px grey;
+}
+
+td, th {
+    padding: 5px;
+    padding-left: 10px;
+    text-align: left;
+}
+
+#table-details tr td:first-child
+{
+    width: 10%;
+}
+
+.table-body {
+    height: 20vh;
+    width: 100%;
+    overflow-y: auto;
+    display: block;
+    padding: 2px;
+}
+
+
+/* Button */
+.button-group
+{
+    margin-top: 20px;
+    display: flex;
+    justify-content:end;
+}
+
+.button-group input[type="submit"], .button-group input[type="reset"]
+{
+    margin: 0.5rem;
+    padding: 0.5rem;
+    color: white;
+    font-weight: 600;
+    border: 0;
+    box-shadow: 0px 1px 2px 0px grey;
+
+}
+
+.button-group input[type="reset"]
+{
+    background-color: rgb(110, 6, 229);
+}
+.button-group input[type="submit"]:hover, .button-group input[type="reset"]:hover
+{
+    opacity: 0.7;
+}
+
+.button-group input[type="submit"]
+{
+    background-color: rgb(139, 155, 156);
+}
+
+#patient-button:checked ~ #model-patient
+{ 
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+#medicine-button:checked ~ #model-medicine
+{ 
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+
+dialog {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .7);
+}
+
+dialog div.model-wapper
+{
+    width: 50vw;
+    height: 60vh;
+    background-color: white;
+    padding: 1rem;
+    position: relative;
+    border-radius: 1em;
+}
+
+dialog div.model-wapper table
+{
+    width: 100%;
+}
+
+dialog div.model-wapper .checkbox-button
+{
+    position: absolute;
+    bottom: 0;
+    text-transform: uppercase;
+}
+
+dialog div.model-wapper input[type="text"]
+{
+    padding: 0.5em;
+    font-size: 1em;
+}

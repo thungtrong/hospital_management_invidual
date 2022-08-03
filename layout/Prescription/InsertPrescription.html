@@ -1,0 +1,225 @@
+<html>
+
+<head>
+    <title>New Perscription</title>
+    <link rel="stylesheet" href="../css/shared.css">
+</head>
+
+<body>
+    <div id="wapper">
+        <h1>Insert New Perscription</h1>
+        <hr>
+        <div class="row">
+            <div class="col" id="form-container">
+                <form action="">
+                    <div class="header-type-table">
+                        <span class="h2" align="left">Patient Information: </span>
+
+                        <input hidden type="checkbox" name="patient" id="patient-button">
+                        <label for="patient-button" class="checkbox-button">CHANGE</label>
+                        <dialog id="model-patient">
+                            <div class="model-wapper" align="center">
+                                <h2 align="center">Search Patient Information</h2>
+                                <div>
+                                    <input type="text" name="patient-search" id="patient-search"
+                                        placeholder="Search Patient Information">
+                                    <a href="">Search</a>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Patient Name</th>
+                                            <th>Phone Number</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Patient Name</td>
+                                            <td>Phone Number</td>
+                                            <td>Address</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <label for="patient-button" class="checkbox-button">Cancel</label>
+                            </div>
+                        </dialog>
+                    </div>
+                    <hr width="90%">
+
+                    <table class="table-information">
+
+                        <tr>
+                            <td>
+                                <label for="patient_name">Patient Name:</label><br />
+                                <input type="text" name="patient_name" value="Patient Name 1" disabled="disabled">
+                            </td>
+                            <td>
+                                <label for="patient_gender">Gender:</label><br />
+                                <input type="text" name="patient_gender" value="Male" disabled="disabled">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="date_of_birth">Date Of Birth:</label><br />
+                                <input type="text" name="date_of_birth" value="22/07/1990" disabled="disabled">
+                            </td>
+                            <td>
+                                <label for="phone_number">Phone Number:</label><br />
+                                <input type="text" name="phone_number" value="0927379174" disabled="disabled">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <label for="address">Address:</label><br />
+                                <input style="width:100%;" type="text" name="address" id="patient_address" value=""
+                                    disabled="disabled">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="header-type-table">
+                        <span class="h2" align="left">Details: </span>
+
+                        <input hidden type="checkbox" name="medicine" id="medicine-button">
+                        <label for="medicine-button" class="checkbox-button">CHANGE</label>
+                        <dialog id="model-medicine">
+                            <div class="model-wapper" align="center">
+                                <h2 align="center">Search Medicine Information</h2>
+                                <table class="table"></table>
+                                <div>
+                                    <input type="text" name="medicine-search" id="medicine-search"
+                                        placeholder="Enter Medicine Name">
+                                    <a href="">Search</a>
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="table-header-group">
+                                                <th>Medicine Name</th>
+                                                <th>Unit</th>
+                                                <th>Instructions</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Medicine Name</td>
+                                                <td>Unit</td>
+                                                <td>Instructions</td>
+                                                <td>CHOICE</td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                    <label for="medicine-button" class="checkbox-button">CANCEL</label>
+                                </div>
+
+                            </div>
+                        </dialog>
+                    </div>
+                    <hr width="90%">
+                    <div class="table-body">
+
+                        <table class="table table-rounded" id="table-details">
+                            <thead>
+                                <tr class="table-header-group">
+                                    <th>Index</th>
+                                    <th>Medicine</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjssssdsdsdskldfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjkldâfsaadasdasdasfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>dfghjssssdsdsdskldfghjk</td>
+                                    <td>3</td>
+                                    <td><a>Delete</a></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="button-group">
+                        <input type="reset" value="Reset">
+                        <input type="submit" value="Save">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+<html>
+
+<head>
+    <title>New Laboratory</title>
+    <link rel="stylesheet" href="../css/shared.css">
+</head>
+
+<body>
+    <div id="wapper">
+        <h1>Insert Laboratory</h1>
+        <hr>
+        <div class="row">
+
+            <div class="col" id="form-container">
+                <form action="">
+                    <div class="header-type-table">
+                        <span class="h2" align="left">Patient Information: </span>
+
+                        <input hidden type="checkbox" name="patient" id="patient-button">
+                        <label for="patient-button" class="checkbox-button">CHANGE</label>
+                        <dialog id="model-patient">
+                            <div class="model-wapper" align="center">
+                                <h2 align="center">Search Patient Information</h2>
+                                <div>
+                                    <input type="text" name="patient-search" id="patient-search">
+                                    <a href="">Search</a>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr class="table-header-group">
+                                            <th>Patient Name</th>
+                                            <th>Phone Number</th>
+                                            <th>Address</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Patient Name</td>
+                                            <td>Phone Number</td>
+                                            <td>Address</td>
+                                            <td>CHOICE</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                <label style="position: absolute; bottom: 0;" for="patient-button"
+                                    class="checkbox-button">Cancel</label>
+                            </div>
+                        </dialog>
+                    </div>
+                    <hr width="90%">
+
+                    <table class="table-information">
+
+                        <tr>
+                            <td>
+                                <label for="patient_name">Patient Name:</label><br />
+                                <input type="text" name="patient_name" value="Patient Name 1" disabled="disabled">
+                            </td>
+                            <td>
+                                <label for="patient_gender">Gender:</label><br />
+                                <input type="text" name="patient_gender" value="Male" disabled="disabled">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="date_of_birth">Date Of Birth:</label><br />
+                                <input type="text" name="date_of_birth" value="22/07/1990" disabled="disabled">
+                            </td>
+                            <td>
+                                <label for="phone_number">Phone Number:</label><br />
+                                <input type="text" name="phone_number" value="0927379174" disabled="disabled">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <label for="address">Address:</label><br />
+                                <input style="width:100%;" type="text" name="address" id="patient_address" value=""
+                                    disabled="disabled">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="patient_date_in"> Date In:</label><br />
+                                <input type="date" name="patient_date_in" id="patient_date_in">
+                            </td>
+                            <td>
+                                <label for="patient_date_in">Date Out:</label><br />
+                                <input type="date" name="patient_date_out" id="patient_date_out">
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <div class="button-group">
+                        <input type="reset" value="Reset">
+                        <input type="submit" value="Save">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
