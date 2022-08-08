@@ -10,6 +10,39 @@
             text-align: right;
         }
     </style>
+
+    <script type="text/javascript">
+        function validate() {
+            let name = document.getElementById('patient-name');
+            if (!name.value) {
+                alert("Please enter patient's name");
+                return false;
+            }
+            let onlyChar = /[a-zA-Z]{2,}/g
+            if (!onlyChar.test(name.value)) {
+                alert("Name must not contain number or special characters");
+                return false;
+            }
+            let idCardNuber = document.getElementById(id_card_number);
+            if (!idCardNuber) {
+                alert("Please enter a card number");
+                return false;
+            }
+            let genderSelector = document.getElementById('gender_selector');
+            if (genderSelector.value === '') {
+                alert("Please choose a gender");
+            }
+            let address = document.getElementById('patient-address')
+            if (address.value === '') {
+                alert('Please enter a address');
+            }
+            return true;
+        }
+        function submitForm() {
+            return validate();
+        }
+    </script>
+
 </head>
 
 <body>
@@ -17,7 +50,7 @@
         <h1>Insert Patient</h1>
         <hr>
         <div id="form-container" align="center">
-            <form action="">
+            <form action="" id="create-patient-form" onsubmit="return submitForm();">
                 <table class="table-information" cellpadding="10">
                     <caption>
                         <h2>Create Patient</h2>
@@ -39,8 +72,8 @@
                     <tr>
                         <td>Gender: </td>
                         <td>
-                            <select name="gender" id="select_gender">
-                                <option value="_" selected>Select</option>
+                            <select name="gender" id="gender_selector">
+                                <option value="" selected>Select</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -50,7 +83,7 @@
                     <tr>
                         <td>Address: </td>
                         <td>
-                            <textarea cols="35" rows="4" name="address"
+                            <textarea cols="35" rows="4" name="address" id="patient-address"
                                 placeholder="Enter patient's address"></textarea>
                         </td>
                     </tr>
@@ -58,14 +91,15 @@
                     <tr>
                         <td>Phone Number: </td>
                         <td>
-                            <input type="text" name="phone_number" placeholder="Enter phone number">
+                            <input pattern="^(+\d{2}|0)([7-9]|3)\d+$" type="text" name="phone_number"
+                                placeholder="Enter phone number">
                         </td>
                     </tr>
 
                     <tr>
                         <td>Date of Birth: </td>
                         <td>
-                            <input type="date" name="dob">
+                            <input required type="date" name="dob">
                         </td>
                     </tr>
 

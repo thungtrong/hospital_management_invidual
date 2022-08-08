@@ -3,36 +3,62 @@
 
 <head>
     <title>Add Doctor</title>
+    <style>
+        @import url('../css/shared.css');
+
+        .table-information tr td:first-child {
+            text-align: right;
+        }
+    </style>
+    <script type="text/javascript">
+        function validate() {
+            let departmentSelector = document.getElementById('department_selector');
+            if (department_selector.value === '') {
+                alert('Please select a department');
+                return false;
+            }
+
+            let genderSelector = document.getElementById('gender_selector');
+            if (genderSelector.value === '') {
+                alert('Please select a gender');
+                return false;
+            }
+            let datePicker = document.getElementById('date_picker');
+            if (datePicker.value === '') {
+                alert('Please select a date');
+                return false;
+            }
+            return true;
+        }
+        function submitForm() {
+            return validate();
+        }
+    </script>
 </head>
 
-<style>
-    @import url('../css/shared.css');
 
-    .table-information tr td:first-child {
-        text-align: right;
-    }
-</style>
 
 <body>
     <div id="wapper">
         <h1>Insert Doctor</h1>
         <hr>
         <div id="form-container" align="center">
-            <form action="">
+            <form action="" onsubmit="return submitForm();">
                 <table class="table-information" cellpadding="10">
                     <caption>
                         <h2>Add Doctor</h2>
                     </caption>
                     <tr>
                         <td>Name: </td>
-                        <td><input type="text" name="doctor_name" placeholder="Enter doctor's name"></td>
+                        <td><input minlength="2" required type="text" name="doctor_name"
+                                placeholder="Enter doctor's name"></td>
                     </tr>
 
                     <tr>
                         <td>Department: </td>
                         <td>
                             <select name="department" id="department_selector">
-                                <option value="select">Select Department</option>
+                                <option value="">Select Department</option>
                                 <option value="outpatient">Outpatient department</option>
                                 <option value="inpatient">Inpatient Service</option>
                                 <option value="emergency_room">Emergency Room</option>
@@ -45,8 +71,8 @@
                     <tr>
                         <td>Gender: </td>
                         <td>
-                            <select name="gender" id="select_gender">
-                                <option value="_" selected>Select</option>
+                            <select name="gender" id="gender_selector">
+                                <option value="" selected>Select</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -56,7 +82,7 @@
                     <tr>
                         <td>Address: </td>
                         <td>
-                            <textarea cols="35" rows="4" name="address"
+                            <textarea minlength="10" cols="35" rows="4" name="address"
                                 placeholder="Enter patient's address"></textarea>
                         </td>
                     </tr>
@@ -64,22 +90,23 @@
                     <tr>
                         <td>Phone Number: </td>
                         <td>
-                            <input type="text" name="phone_number" placeholder="Enter phone number">
+                            <input required minlength="9" maxlength="15" pattern="^(\+\d{2}|0)([7-9]|3)\d+$" type="text"
+                                name="phone_number" placeholder="Enter phone number">
                         </td>
                     </tr>
                     <tr>
                         <td>Date of Birth: </td>
                         <td>
-                            <input type="date" name="dob">
+                            <input type="date" name="dob" id="date_picker">
                         </td>
                     </tr>
 
                 </table>
+                <div class="button-group">
+                    <input type="submit" value="Submit">
+                    <input type="reset" value="Reset">
+                </div>
             </form>
-            <div class="button-group">
-                <input type="submit" value="Create">
-                <input type="Reset" value="Reset">
-            </div>
 
         </div>
     </div>
