@@ -1,17 +1,15 @@
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import com.hospitalmanagement.dao.DoctorDAO;
-import com.hospitalmanagement.model.Doctor;
-import com.hospitalmanagement.util.DBConnection;
+import java.sql.Date;
 
 public class Main {
 	public static void main(String[] args) {
 
-		DoctorDAO doctorDao = new DoctorDAO();
-		List<Doctor> doctor = doctorDao.findAll();
-		System.out.println(doctor);
-
+//		DoctorDAO doctorDao = new DoctorDAO();
+//		List<Doctor> doctor = doctorDao.findAll();
+//		System.out.println(doctor);
+		
+		DAOTestting test = new DAOTestting();
+		test.testPatientDAO();
+		
 	}
+	
 }
