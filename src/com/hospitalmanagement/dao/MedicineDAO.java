@@ -1,95 +1,152 @@
 package com.hospitalmanagement.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.hospitalmanagement.model.Medicine;
+import com.hospitalmanagement.model.Medicine;
+import com.hospitalmanagement.model.Medicine;
 import com.hospitalmanagement.util.HibernateUtil;
+import com.hospitalmanagement.util.HibernateUtil2;
 
 public class MedicineDAO implements DAO<Medicine, Integer>{
-
 	private SessionFactory sessionFactory;
-	
+	{
+		sessionFactory = HibernateUtil2.getSessionFactory();
+	}
 	public MedicineDAO() {
-		sessionFactory = HibernateUtil.getSessionFactory();
 	}
 
+	
 	@Override
 	public List<Medicine> findAll() {
-		Session session = this.sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(Medicine.class);
-		List<Medicine> list = criteria.list();
-		
-		session.close();
-		return list;
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(Medicine.class);
+			List<Medicine> list = criteria.list();
+			
+			return list;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		return new ArrayList<>();
 	}
 
 	@Override
 	public Medicine findById(Integer id) {
-		Session session = this.sessionFactory.openSession();
-		Medicine medicine = (Medicine) session.get(Medicine.class, id);
-		
-		session.close();
-		return medicine;
-	}
-
-	@Override
-	public Medicine update(Medicine medicine) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		
-		Medicine model = (Medicine) session.get(Medicine.class, medicine.getId());
-		if (model == null)
-		{
-			session.close();
-			return null;
+		Medicine medicine;
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			medicine = (Medicine) session.get(Medicine.class, id);
+			
+			return medicine;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
 		}
-		medicine.copyTo(model);
-		
-		transaction.commit();
-		session.close();
-		return model;
+		return null;
 	}
 
 	@Override
-	public Medicine insert(Medicine medicine) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		session.save(medicine);
-		transaction.commit();
-		session.close();
+	public int update(Medicine medicine) {
+		Medicine model;
+		Session session = null;
+		int result = 0;
 		
-		return medicine;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			model = (Medicine) session.get(Medicine.class, medicine.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
+			}
+			
+			session.merge(medicine);
+			transaction.commit();
+			result = 1;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public Medicine save(Medicine medicine) {
-		if (medicine.getId() == null)
-		{
-			return this.insert(medicine);
-		} else 
-			return this.update(medicine);
+	public Integer insert(Medicine medicine) {
+		Session session = null;
+		Integer id = -1;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			id = (Integer) session.save(medicine);
+			transaction.commit();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		
+		return id;
 	}
+
 
 	@Override
 	public int delete(Medicine medicine) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		
-		Medicine model = (Medicine) session.get(Medicine.class, medicine.getId());
-		if (model == null)
-		{
-			session.close();
-			return 0;
-		} 
-		session.delete(model);
-		
-		transaction.commit();
-		session.close();
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			Medicine model = (Medicine) session.get(Medicine.class, medicine.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
+			} 
+			session.delete(model);
+			
+			transaction.commit();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
 		return 1;
 	}
+	
 }

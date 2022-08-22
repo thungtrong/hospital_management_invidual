@@ -1,15 +1,23 @@
 package com.hospitalmanagement.model;
 
+import java.util.List;
+
 // mapping use xml
 public class Department {
 	private Integer id;
 	private String name;
 	private String description;
 	
+	
 	public Department() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public Department(Integer id)
+	{
+		this.id = id;
+	}
+	
 	public Department(Integer id, String name, String description) {
 		super();
 		this.id = id;
@@ -41,16 +49,11 @@ public class Department {
 		this.description = description;
 	}
 	
-	public void copyTo(Department departmet)
-	{
-		departmet.name = this.name;
-		departmet.description = this.description;
-	}
-
 	@Override
 	public String toString() {
 		return "Department [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
+
 	
 	
 	

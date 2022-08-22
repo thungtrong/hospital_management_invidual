@@ -4,7 +4,8 @@
 <hibernate-mapping>
 	<class name="com.hospitalmanagement.model.Illness" table="illness">
 		<id name="id" column="id" type="integer">
-			<generator class="assigned"></generator>	
+			<generator class="increment">
+			</generator>	
 		</id>
 		<property name="name" column="name" type="string"></property>
 		<property name="description" column="description" type="string"></property>

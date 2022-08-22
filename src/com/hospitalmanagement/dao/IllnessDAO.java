@@ -1,95 +1,152 @@
 package com.hospitalmanagement.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.hospitalmanagement.model.Illness;
 import com.hospitalmanagement.model.Illness;
+import com.hospitalmanagement.model.Illness;
 import com.hospitalmanagement.util.HibernateUtil;
+import com.hospitalmanagement.util.HibernateUtil2;
 
 public class IllnessDAO implements DAO<Illness, Integer>{
 	private SessionFactory sessionFactory;
-	
+	{
+		sessionFactory = HibernateUtil2.getSessionFactory();
+	}
 	public IllnessDAO() {
-		sessionFactory = HibernateUtil.getSessionFactory();
 	}
 
+	
 	@Override
 	public List<Illness> findAll() {
-		Session session = this.sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(Illness.class);
-		List<Illness> list = criteria.list();
-		
-		session.close();
-		return list;
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(Illness.class);
+			List<Illness> list = criteria.list();
+			
+			return list;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		return new ArrayList<>();
 	}
 
 	@Override
 	public Illness findById(Integer id) {
-		Session session = this.sessionFactory.openSession();
-		Illness illness = (Illness) session.get(Illness.class, id);
-		
-		session.close();
-		return illness;
-	}
-
-	@Override
-	public Illness update(Illness illness) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		
-		Illness model = (Illness) session.get(Illness.class, illness.getId());
-		if (model == null)
-		{
-			session.close();
-			return null;
+		Illness illness;
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			illness = (Illness) session.get(Illness.class, id);
+			
+			return illness;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
 		}
-		illness.copyTo(model);
-		
-		transaction.commit();
-		session.close();
-		return model;
+		return null;
 	}
 
 	@Override
-	public Illness insert(Illness illness) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		session.save(illness);
-		transaction.commit();
-		session.close();
+	public int update(Illness illness) {
+		Illness model;
+		Session session = null;
+		int result = 0;
 		
-		return illness;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			model = (Illness) session.get(Illness.class, illness.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
+			}
+			
+			session.merge(illness);
+			transaction.commit();
+			result = 1;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public Illness save(Illness illness) {
-		if (illness.getId() == null)
-		{
-			return this.insert(illness);
-		} else 
-			return this.update(illness);
+	public Integer insert(Illness illness) {
+		Session session = null;
+		Integer id = -1;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			id = (Integer) session.save(illness);
+			transaction.commit();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		
+		return id;
 	}
+
 
 	@Override
 	public int delete(Illness illness) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		
-		Illness model = (Illness) session.get(Illness.class, illness.getId());
-		if (model == null)
-		{
-			session.close();
-			return 0;
-		} 
-		session.delete(model);
-		
-		transaction.commit();
-		session.close();
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			Illness model = (Illness) session.get(Illness.class, illness.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
+			} 
+			session.delete(model);
+			
+			transaction.commit();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
 		return 1;
 	}
+	
 }

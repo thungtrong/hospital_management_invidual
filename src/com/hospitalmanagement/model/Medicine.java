@@ -14,7 +14,6 @@ public class Medicine {
 	private String instruction;
 	public Medicine() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Medicine(Integer id, String name, String unit, String instruction) {
 		super();
@@ -51,12 +50,7 @@ public class Medicine {
 	public String toString() {
 		return "Medicine [id=" + id + ", name=" + name + ", unit=" + unit + ", instruction=" + instruction + "]";
 	}
-	public void copyTo(Medicine other) {
-		other.name = this.name;
-		other.unit = this.unit;
-		other.instruction = this.instruction;
-		
-	}
+
 	
 	
 }

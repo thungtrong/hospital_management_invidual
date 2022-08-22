@@ -1,94 +1,153 @@
 package com.hospitalmanagement.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.hospitalmanagement.model.Patient;
+import com.hospitalmanagement.model.Patient;
+import com.hospitalmanagement.model.Patient;
 import com.hospitalmanagement.util.HibernateUtil;
+import com.hospitalmanagement.util.HibernateUtil2;
 
 public class PatientDAO implements DAO<Patient, Integer> {
-private SessionFactory sessionFactory;
-	
+	private SessionFactory sessionFactory;
+	{
+		sessionFactory = HibernateUtil2.getSessionFactory();
+	}
 	public PatientDAO() {
-		sessionFactory = HibernateUtil.getSessionFactory();
 	}
 
+	
 	@Override
 	public List<Patient> findAll() {
-		Session session = this.sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(Patient.class);
-		List<Patient> list = criteria.list();
-		
-		session.close();
-		return list;
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(Patient.class);
+			List<Patient> list = criteria.list();
+			
+			return list;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		return new ArrayList<>();
 	}
 
 	@Override
 	public Patient findById(Integer id) {
-		Session session = this.sessionFactory.openSession();
-		Patient patient = (Patient) session.get(Patient.class, id);
-		
-		session.close();
-		return patient;
-	}
-
-	@Override
-	public Patient update(Patient patient) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		
-		Patient model = (Patient) session.get(Patient.class, patient.getId());
-		if (model == null)
-		{
-			session.close();
-			return null;
+		Patient patient;
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			patient = (Patient) session.get(Patient.class, id);
+			
+			return patient;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
 		}
-		patient.copyTo(model);
-		
-		transaction.commit();
-		session.close();
-		return model;
+		return null;
 	}
 
 	@Override
-	public Patient insert(Patient patient) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		session.save(patient);
-		transaction.commit();
-		session.close();
+	public int update(Patient patient) {
+		Patient model;
+		Session session = null;
+		int result = 0;
 		
-		return patient;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			model = (Patient) session.get(Patient.class, patient.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
+			}
+			
+			session.merge(patient);
+			transaction.commit();
+			result = 1;
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public Patient save(Patient patient) {
-		if (patient.getId() == null)
-		{
-			return this.insert(patient);
-		} else 
-			return this.update(patient);
+	public Integer insert(Patient patient) {
+		Session session = null;
+		Integer id = -1;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			id = (Integer) session.save(patient);
+			transaction.commit();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		
+		return id;
 	}
+
 
 	@Override
 	public int delete(Patient patient) {
-		Session session = this.sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		
-		Patient model = (Patient) session.get(Patient.class, patient.getId());
-		if (model == null)
-		{
-			session.close();
-			return 0;
-		} 
-		session.delete(model);
-		
-		transaction.commit();
-		session.close();
+		Session session = null;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			Patient model = (Patient) session.get(Patient.class, patient.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
+			} 
+			session.delete(model);
+			
+			transaction.commit();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
 		return 1;
 	}
+	
+	
 }

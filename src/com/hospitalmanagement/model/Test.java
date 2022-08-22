@@ -58,10 +58,4 @@ public class Test {
 				+ description + "]";
 	}
 	
-	public void copyTo(Test other)
-	{
-		other.testName = this.testName;
-		other.normalResult = this.normalResult;
-		other.description = this.description;
-	}
 }

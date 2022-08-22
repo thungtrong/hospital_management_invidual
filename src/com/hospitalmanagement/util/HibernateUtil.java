@@ -2,6 +2,7 @@ package com.hospitalmanagement.util;
 
 import java.util.ResourceBundle;
 
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -23,7 +24,7 @@ public class HibernateUtil {
 			cfg.setProperty("hibernate.connection.password", password);
 			
 			sessionFactory = cfg.buildSessionFactory();
-		} catch (Exception e)
+		} catch (HibernateException e)
 		{
 			System.out.println("Session Factory initial creation error");
 		}

@@ -9,152 +9,150 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import com.hospitalmanagement.model.Doctor;
+import com.hospitalmanagement.model.Doctor;
 import com.hospitalmanagement.util.DBConnection;
+import com.hospitalmanagement.util.HibernateUtil2;
 
 public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
-	private Connection connection;
-
-	private static SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy/mm/dd");
-
+	private SessionFactory sessionFactory;
+	{
+		sessionFactory = HibernateUtil2.getSessionFactory();
+	}
 	public DoctorDAO() {
-		try {
-			connection = DBConnection.getConnection();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
-	// alt + shift + r
-	private Doctor mappingDoctor(ResultSet resultSet) {
-		Doctor doctor = new Doctor();
-		try {
-			doctor.setId(resultSet.getLong(1));
-			doctor.setName(resultSet.getString(2));
-			doctor.setGender(resultSet.getString(3).charAt(0));
-			doctor.setPhoneNumber(resultSet.getString(4));
-			doctor.setAddress(resultSet.getString(5));
-			doctor.setDateOfBirth(resultSet.getDate(6));
-			doctor.setDepartmentId(resultSet.getInt(7));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return doctor;
-	}
-
+	
 	@Override
 	public List<Doctor> findAll() {
-		// TODO Auto-generated method stub
-		List<Doctor> doctors = new ArrayList<>();
-		Statement statement;
+		Session session = null;
 		try {
-			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(SELECT_ALL);
-
-			while (resultSet.next()) {
-				doctors.add(this.mappingDoctor(resultSet));
-			}
-
-		} catch (SQLException e) {
+			session = this.sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(Doctor.class);
+			List<Doctor> list = criteria.list();
+			
+			return list;
+		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
 		}
-		return doctors;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public Doctor findById(Long id) {
-		PreparedStatement statement;
+		Doctor doctor;
+		Session session = null;
 		try {
-			statement = connection.prepareStatement(SELECT_BY_ID);
-			statement.setLong(1, id);
-			ResultSet resultSet = statement.executeQuery();
-			if (resultSet.next())
-				return this.mappingDoctor(resultSet);
-		} catch (SQLException e) {
+			session = this.sessionFactory.openSession();
+			doctor = (Doctor) session.get(Doctor.class, id);
+			
+			return doctor;
+		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		return null;
-	}
-
-	@Override
-	public Doctor update(Doctor model) {
-		// TODO Auto-generated method stub
-		PreparedStatement statement;
-		try {
-			statement = connection.prepareStatement(UPDATE_QUERY);
-			statement.setString(1, model.getName());
-			statement.setString(2, model.getGender().toString());
-			statement.setString(3, model.getPhoneNumber());
-			statement.setString(4, model.getAddress());
-			statement.setString(5, dateFormater.format(model.getDateOfBirth()));
-			statement.setInt(6, model.getDepartmentId());
-			statement.setLong(7, model.getId());
-			if (statement.executeUpdate() > 0) {
-				return model;
+		} finally {
+			if (session != null)
+			{
+				session.close();
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
 		return null;
 	}
 
 	@Override
-	public Doctor insert(Doctor model) {
-		PreparedStatement statement;
+	public int update(Doctor doctor) {
+		Doctor model;
+		Session session = null;
+		int result = 0;
+		
 		try {
-			statement = connection.prepareStatement(INSERT_QUERY);
-			statement.setString(1, model.getName());
-			statement.setString(2, model.getGender().toString());
-			statement.setString(3, model.getPhoneNumber());
-			statement.setString(4, model.getAddress());
-			statement.setString(5, dateFormater.format(model.getDateOfBirth()));
-			statement.setInt(6, model.getDepartmentId());
-			if (statement.executeUpdate() > 0) {
-				return model;
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			model = (Doctor) session.get(Doctor.class, doctor.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
 			}
-		} catch (SQLException e) {
+			
+			session.merge(doctor);
+			transaction.commit();
+			result = 1;
+		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Long insert(Doctor doctor) {
+		Session session = null;
+		Long id = -1l;
+		try {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			id = (Long) session.save(doctor);
+			transaction.commit();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
 		}
 		
-		return null;
+		return id;
 	}
 
-	@Override
-	public Doctor save(Doctor model) {
-		if (model.getId() == null) {
-			return this.insert(model);
-		} else {
-			return this.update(model);
-		}
-	}
 
 	@Override
-	public int delete(Doctor model) {
-		PreparedStatement statement;
+	public int delete(Doctor doctor) {
+		Session session = null;
 		try {
-			statement = connection.prepareStatement(DELETE_QUERY);
-			statement.setLong(1, model.getId());
-
-			return statement.executeUpdate();
-		} catch (SQLException e) {
+			session = this.sessionFactory.openSession();
+			Transaction transaction = session.beginTransaction();
+			
+			Doctor model = (Doctor) session.get(Doctor.class, doctor.getId());
+			if (model == null)
+			{
+				session.close();
+				return 0;
+			} 
+			session.delete(model);
+			
+			transaction.commit();
+		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (session != null)
+			{
+				session.close();
+			}
 		}
-		return 0;
+		return 1;
 	}
+	
 
 }
