@@ -1,11 +1,5 @@
 package com.hospitalmanagement.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +10,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.hospitalmanagement.model.Doctor;
-import com.hospitalmanagement.model.Doctor;
-import com.hospitalmanagement.util.DBConnection;
+import com.hospitalmanagement.util.HibernateUtil;
 import com.hospitalmanagement.util.HibernateUtil2;
 
-public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
+public class DoctorDAO implements DAO<Doctor, Integer>{
 	private SessionFactory sessionFactory;
 	{
 		sessionFactory = HibernateUtil2.getSessionFactory();
@@ -51,7 +44,7 @@ public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
 	}
 
 	@Override
-	public Doctor findById(Long id) {
+	public Doctor findById(Integer id) {
 		Doctor doctor;
 		Session session = null;
 		try {
@@ -84,13 +77,14 @@ public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
 			model = (Doctor) session.get(Doctor.class, doctor.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
+			} else
+			{
+				session.merge(doctor);
+				transaction.commit();
+				result = 1;
 			}
 			
-			session.merge(doctor);
-			transaction.commit();
-			result = 1;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,13 +98,13 @@ public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
 	}
 
 	@Override
-	public Long insert(Doctor doctor) {
+	public Integer insert(Doctor doctor) {
 		Session session = null;
-		Long id = -1l;
+		Integer id = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
-			id = (Long) session.save(doctor);
+			id = (Integer) session.save(doctor);
 			transaction.commit();
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
@@ -129,6 +123,7 @@ public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
 	@Override
 	public int delete(Doctor doctor) {
 		Session session = null;
+		int result = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
@@ -136,12 +131,16 @@ public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
 			Doctor model = (Doctor) session.get(Doctor.class, doctor.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
 			} 
-			session.delete(model);
+			else 
+			{
+				session.delete(model);
+				
+				transaction.commit();
+				result = 1;
+			}
 			
-			transaction.commit();
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -151,8 +150,7 @@ public class DoctorDAO implements DAO<Doctor, Long>, DoctorQueries {
 				session.close();
 			}
 		}
-		return 1;
+		return result;
 	}
 	
-
 }

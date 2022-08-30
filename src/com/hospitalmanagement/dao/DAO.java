@@ -17,19 +17,19 @@ public interface DAO<T, ID> {
 	/**
 	 * This method used to update instance having id in table.
 	 * @param model
-	 * @return int. Number of affected row
+	 * @return T. Number of affected row
 	 */
 	int update(T model);
 	/**
 	 * This method is used to insert instance into table. 
 	 * @param model
-	 * @return ID. If failure, return -1. 
+	 * @return ID. If failure, return 0. 
 	 */
 	ID insert(T model);
 	/**
 	 * This method is used to delete instance in table
 	 * @param model
-	 * @return int. Number of affected row
+	 * @return ID. id of model have been inserted
 	 */
 	int delete(T model);
 }

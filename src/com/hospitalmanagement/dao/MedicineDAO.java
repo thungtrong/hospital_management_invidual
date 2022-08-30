@@ -10,8 +10,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.hospitalmanagement.model.Medicine;
-import com.hospitalmanagement.model.Medicine;
-import com.hospitalmanagement.model.Medicine;
 import com.hospitalmanagement.util.HibernateUtil;
 import com.hospitalmanagement.util.HibernateUtil2;
 
@@ -79,13 +77,14 @@ public class MedicineDAO implements DAO<Medicine, Integer>{
 			model = (Medicine) session.get(Medicine.class, medicine.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
+			} else
+			{
+				session.merge(medicine);
+				transaction.commit();
+				result = 1;
 			}
 			
-			session.merge(medicine);
-			transaction.commit();
-			result = 1;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,7 +100,7 @@ public class MedicineDAO implements DAO<Medicine, Integer>{
 	@Override
 	public Integer insert(Medicine medicine) {
 		Session session = null;
-		Integer id = -1;
+		Integer id = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
@@ -124,6 +123,7 @@ public class MedicineDAO implements DAO<Medicine, Integer>{
 	@Override
 	public int delete(Medicine medicine) {
 		Session session = null;
+		int result = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
@@ -131,12 +131,16 @@ public class MedicineDAO implements DAO<Medicine, Integer>{
 			Medicine model = (Medicine) session.get(Medicine.class, medicine.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
 			} 
-			session.delete(model);
+			else 
+			{
+				session.delete(model);
+				
+				transaction.commit();
+				result = 1;
+			}
 			
-			transaction.commit();
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -146,7 +150,7 @@ public class MedicineDAO implements DAO<Medicine, Integer>{
 				session.close();
 			}
 		}
-		return 1;
+		return result;
 	}
 	
 }

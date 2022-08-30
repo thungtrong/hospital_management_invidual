@@ -77,13 +77,14 @@ public class DepartmentDAO implements DAO<Department, Integer>{
 			model = (Department) session.get(Department.class, department.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
+			} else
+			{
+				session.merge(department);
+				transaction.commit();
+				result = 1;
 			}
 			
-			session.merge(department);
-			transaction.commit();
-			result = 1;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,7 +100,7 @@ public class DepartmentDAO implements DAO<Department, Integer>{
 	@Override
 	public Integer insert(Department department) {
 		Session session = null;
-		Integer id = -1;
+		Integer id = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
@@ -122,6 +123,7 @@ public class DepartmentDAO implements DAO<Department, Integer>{
 	@Override
 	public int delete(Department department) {
 		Session session = null;
+		int result = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
@@ -129,12 +131,16 @@ public class DepartmentDAO implements DAO<Department, Integer>{
 			Department model = (Department) session.get(Department.class, department.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
 			} 
-			session.delete(model);
+			else 
+			{
+				session.delete(model);
+				
+				transaction.commit();
+				result = 1;
+			}
 			
-			transaction.commit();
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -144,8 +150,7 @@ public class DepartmentDAO implements DAO<Department, Integer>{
 				session.close();
 			}
 		}
-		return 1;
+		return result;
 	}
-	
 	
 }

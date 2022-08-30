@@ -10,12 +10,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.hospitalmanagement.model.Patient;
-import com.hospitalmanagement.model.Patient;
-import com.hospitalmanagement.model.Patient;
 import com.hospitalmanagement.util.HibernateUtil;
 import com.hospitalmanagement.util.HibernateUtil2;
 
-public class PatientDAO implements DAO<Patient, Integer> {
+public class PatientDAO implements DAO<Patient, Integer>{
 	private SessionFactory sessionFactory;
 	{
 		sessionFactory = HibernateUtil2.getSessionFactory();
@@ -79,13 +77,14 @@ public class PatientDAO implements DAO<Patient, Integer> {
 			model = (Patient) session.get(Patient.class, patient.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
+			} else
+			{
+				session.merge(patient);
+				transaction.commit();
+				result = 1;
 			}
 			
-			session.merge(patient);
-			transaction.commit();
-			result = 1;
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -101,7 +100,7 @@ public class PatientDAO implements DAO<Patient, Integer> {
 	@Override
 	public Integer insert(Patient patient) {
 		Session session = null;
-		Integer id = -1;
+		Integer id = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
@@ -124,6 +123,7 @@ public class PatientDAO implements DAO<Patient, Integer> {
 	@Override
 	public int delete(Patient patient) {
 		Session session = null;
+		int result = 0;
 		try {
 			session = this.sessionFactory.openSession();
 			Transaction transaction = session.beginTransaction();
@@ -131,12 +131,16 @@ public class PatientDAO implements DAO<Patient, Integer> {
 			Patient model = (Patient) session.get(Patient.class, patient.getId());
 			if (model == null)
 			{
-				session.close();
-				return 0;
+				result = 0;
 			} 
-			session.delete(model);
+			else 
+			{
+				session.delete(model);
+				
+				transaction.commit();
+				result = 1;
+			}
 			
-			transaction.commit();
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -146,8 +150,7 @@ public class PatientDAO implements DAO<Patient, Integer> {
 				session.close();
 			}
 		}
-		return 1;
+		return result;
 	}
-	
 	
 }
