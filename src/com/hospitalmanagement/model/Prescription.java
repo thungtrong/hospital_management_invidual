@@ -36,4 +36,38 @@ public class Prescription {
 	@OneToMany
 	@JoinColumn(name="prescription_id", referencedColumnName = "id")
 	private List<PrescriptionDetail> details;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public HealthRecord getHealthRecord() {
+		return healthRecord;
+	}
+
+	public void setHealthRecord(HealthRecord healthRecord) {
+		this.healthRecord = healthRecord;
+	}
+
+	public List<PrescriptionDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<PrescriptionDetail> details) {
+		this.details = details;
+	}
+	
+	
 }
